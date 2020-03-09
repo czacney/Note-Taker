@@ -25,14 +25,18 @@ app.get("/api/notes", function (req, res) {
 });
 
 
-app.get("/api/notes/:notes", function (req, res) {
-    var chosen = req.params.notes;
-
+app.delete("/api/notes/:notes", function (req, res) {
+    var chosen = parseInt(req.params.notes);
     for (var i = 0; i < db.length; i++) {
-        if (chosen === db[i].routeName) {
-            return res.json(db[i]);
+        if (chosen === db[i].notes) {
+            db.splice(i, 0);
         }
     }
+    fs.writeFile("./db/db.json", JSON.stringify(db), function (err) {
+        if (err) {
+            throw err;
+        }
+    })
 
     return res.json(false);
 });
@@ -40,6 +44,11 @@ app.get("/api/notes/:notes", function (req, res) {
 app.post("/api/notes", function (req, res) {
     var newNote = req.body;
     db.push(newNote);
+    fs.writeFile("./db/db.json", JSON.stringify(db), function (err) {
+        if (err) {
+            throw err;
+        }
+    })
     res.json(newNote);
 });
 
