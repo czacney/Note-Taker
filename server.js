@@ -24,9 +24,40 @@ app.get("/notes", function (req, res) {
 });
 
 
-app.get("/api/notes/:character", function(req, res) {
-    var chosen = req.params.character;  
+app.get("/api/notes", function (req, res) {
+    return res.json(dbnote);
+});
 
+
+app.get("/api/notes/:notes", function (req, res) {
+    var chosen = req.params.notes;
+
+    console.log(chosen);
+
+    for (var i = 0; i < dbnote.length; i++) {
+        if (chosen === dbnote[i].routeName) {
+            return res.json(dbnote[i]);
+        }
+    }
+
+    return res.json(false);
+});
+
+app.post("/api/notes", function (req, res) {
+    // req.body hosts is equal to the JSON post sent from the user
+    // This works because of our body parsing middleware
+    var newNote = req.body;
+
+    // Using a RegEx Pattern to remove spaces from newCharacter
+    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+    newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
+
+    console.log(cd);
+
+    dbnote.push(newNote);
+
+    res.json(newNote);
+});
 
 
 app.listen(PORT, function () {

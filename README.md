@@ -1,3 +1,3 @@
 # Note-Taker
 
-Deployed link: https://note-taker-69.herokuapp.com/
+Deployed link: https://lit-shelf-68289.herokuapp.com/
